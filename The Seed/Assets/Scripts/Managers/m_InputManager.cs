@@ -48,4 +48,8 @@ public class m_InputManager : MonoBehaviour {
         return pc.Player.Pause.triggered;
     }
 
+    public bool GetJumpButton() {
+        return pc.Player.Jump.triggered;
+    }
+
 }
