@@ -35,8 +35,6 @@ public class EditorDuplicateObjects : EditorWindow {
 
     }
 
-
-
     private void UI_Display() {
 
         GUILayout.BeginVertical();

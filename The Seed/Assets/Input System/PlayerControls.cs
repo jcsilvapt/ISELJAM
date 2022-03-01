@@ -57,6 +57,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SprintStarted"",
+                    ""type"": ""Button"",
+                    ""id"": ""31ceca3c-0f2e-4f9c-a014-031105897c72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SprintFinish"",
+                    ""type"": ""Button"",
+                    ""id"": ""a32505be-0ccb-432c-8d71-d0f234d54a5d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +174,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6913bc37-3732-4c09-998e-f9ecdd7c47f8"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SprintStarted"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32b86e5a-9833-4780-85a1-aba29a6e5e2b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SprintFinish"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -171,6 +209,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_SprintStarted = m_Player.FindAction("SprintStarted", throwIfNotFound: true);
+        m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -225,6 +265,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_SprintStarted;
+    private readonly InputAction m_Player_SprintFinish;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -234,6 +276,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @SprintStarted => m_Wrapper.m_Player_SprintStarted;
+        public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +302,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @SprintStarted.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStarted;
+                @SprintStarted.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStarted;
+                @SprintStarted.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStarted;
+                @SprintFinish.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
+                @SprintFinish.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
+                @SprintFinish.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -277,6 +327,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @SprintStarted.started += instance.OnSprintStarted;
+                @SprintStarted.performed += instance.OnSprintStarted;
+                @SprintStarted.canceled += instance.OnSprintStarted;
+                @SprintFinish.started += instance.OnSprintFinish;
+                @SprintFinish.performed += instance.OnSprintFinish;
+                @SprintFinish.canceled += instance.OnSprintFinish;
             }
         }
     }
@@ -288,5 +344,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSprintStarted(InputAction.CallbackContext context);
+        void OnSprintFinish(InputAction.CallbackContext context);
     }
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class m_InputManager : MonoBehaviour {
 
-    private PlayerControls pc;
+    public PlayerControls pc;
 
     private static m_InputManager ins;
+
+    private bool isSprintActive;
 
     public static m_InputManager Instance {
         get {
@@ -26,10 +28,20 @@ public class m_InputManager : MonoBehaviour {
 
     private void OnEnable() {
         pc.Enable();
+        pc.Player.SprintStarted.performed += x => SprintPressed();
+        pc.Player.SprintFinish.performed += x => SprintReleased();
     }
 
     private void OnDisable() {
         pc.Disable();
+    }
+
+    private void SprintPressed() {
+        isSprintActive = true;
+    }
+
+    private void SprintReleased() {
+        isSprintActive = false;
     }
 
     public Vector2 GetMovementInput() {
@@ -40,7 +52,7 @@ public class m_InputManager : MonoBehaviour {
         return pc.Player.Look.ReadValue<Vector2>();
     }
 
-    public bool GetInteraction() {
+    public bool GetInteractionButton() {
         return pc.Player.Interaction.triggered;
     }
 
@@ -50,6 +62,10 @@ public class m_InputManager : MonoBehaviour {
 
     public bool GetJumpButton() {
         return pc.Player.Jump.triggered;
+    }
+    
+    public bool GetIsSprinting() {
+        return isSprintActive;
     }
 
 }

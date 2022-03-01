@@ -41,11 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Depth: 1.79
-    - _Displacement: 0.01
+    - _Displacement: 0.05
     - _NormalStrength: 0.806
     - _Smooth: 0.64
     - _Strength: 1.21
-    - _WaveTime: 24.1
+    - _WaveTime: 30
     m_Colors:
     - _DeepWaterColor: {r: 0.036830187, g: 0.119177125, b: 0.128, a: 0.85882354}
     - _ShallowWaterColor: {r: 0.16078435, g: 0.23724717, b: 0.49019608, a: 0.9019608}
