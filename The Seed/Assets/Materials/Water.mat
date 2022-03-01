@@ -40,13 +40,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Depth: 3.31
+    - _Depth: 1.79
     - _Displacement: 0.01
-    - _NormalStrength: 0.633
+    - _NormalStrength: 0.806
     - _Smooth: 0.64
-    - _Strength: 2
+    - _Strength: 1.21
     - _WaveTime: 24.1
     m_Colors:
-    - _DeepWaterColor: {r: 0.036830187, g: 0.119177125, b: 0.128, a: 0.7647059}
-    - _ShallowWaterColor: {r: 0.15966536, g: 0.457476, b: 0.49056602, a: 0.47843137}
+    - _DeepWaterColor: {r: 0.036830187, g: 0.119177125, b: 0.128, a: 0.85882354}
+    - _ShallowWaterColor: {r: 0.16078435, g: 0.23724717, b: 0.49019608, a: 0.9019608}
   m_BuildTextureStacks: []
