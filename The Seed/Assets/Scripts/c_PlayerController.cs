@@ -62,9 +62,16 @@ public class c_PlayerController : MonoBehaviour {
 
         if (movePos != Vector3.zero) {
 
-            currentSpeed = input.GetIsSprinting() ? runningSpeed : walkingSpeed;
+            if (input.GetIsSprinting()) {
+                currentSpeed = runningSpeed;
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isRunning", true);
+            } else {
+                currentSpeed = walkingSpeed;
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isRunning", false);
+            }
 
-            anim.SetBool("isWalking", true);
 
             Vector3 velocity = new Vector3(movePos.x, rb.velocity.y, movePos.z);
             rb.velocity = Vector3.Scale(velocity, new Vector3(currentSpeed, 1f, currentSpeed));
@@ -81,6 +88,7 @@ public class c_PlayerController : MonoBehaviour {
         } else {
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
             anim.SetBool("isWalking", false);
+            anim.SetBool("isRunning", false);
         }
     }
 

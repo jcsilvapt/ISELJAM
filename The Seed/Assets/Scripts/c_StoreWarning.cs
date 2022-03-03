@@ -1,88 +1,125 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class c_StoreWarning : MonoBehaviour {
 
-    public CanvasGroup warningPanel;
-    public Transform player;
-    public float timePerWarning;
-    public float timeDuringWarning;
+    [Header("References")]
+    [SerializeField] CanvasGroup warningPanel;
+    [SerializeField] Transform player;
+    [SerializeField] TextMeshProUGUI text;
 
-    private float elapsedTime;
+    [Header("Dialog")]
+    [SerializeField] List<string> dialogs;
+
+    [Header("Settings")]
+    [SerializeField] float timePerWarning;
+    [SerializeField] float warningDuration;
+    [SerializeField] float lastTimePlayerHasEntered;
+
+    [Header("Developer Settings")]
+    [SerializeField] bool isShowingWarning;
+    [SerializeField] bool hasPlayerEntered;
+
+    [SerializeField] float elapsedTimePerWarning;
+    [SerializeField] float elapsedLastTimePlayerHasEntered;
+    [SerializeField] int dialogId;
 
     private RectTransform rt;
 
-    public bool isRunning;
-
-    public bool hasPlayer;
-
-
     private void Awake() {
         rt = warningPanel.GetComponent<RectTransform>();
+        elapsedLastTimePlayerHasEntered = lastTimePlayerHasEntered;
+        elapsedTimePerWarning = timePerWarning;
+        text.SetText(dialogs[dialogId]);
     }
 
     private void Update() {
-        if (hasPlayer) {
-            rt.LookAt(Camera.main.transform);
+
+        rt.LookAt(Camera.main.transform);
+
+
+        HandleTimePerWarning();
+
+        if (hasPlayerEntered) {
+            if (HandleLastTimePlayerEnter() && !isShowingWarning) {
+                elapsedTimePerWarning = timePerWarning;
+            }
         }
 
-        if(elapsedTime >= timePerWarning) {
+    }
+
+    private void HandleTimePerWarning() {
+        if (elapsedTimePerWarning >= timePerWarning) {
+            elapsedTimePerWarning = 0f;
             StartCoroutine(FadeIn());
-            elapsedTime = 0f;
+            isShowingWarning = true;
         } else {
-            elapsedTime += Time.deltaTime;
+            elapsedTimePerWarning += Time.deltaTime;
+        }
+    }
+
+    private bool HandleLastTimePlayerEnter() {
+
+        if (elapsedLastTimePlayerHasEntered >= lastTimePlayerHasEntered) {
+            elapsedLastTimePlayerHasEntered = 0f;
+            hasPlayerEntered = false;
+            return true;
+        } else {
+            elapsedLastTimePlayerHasEntered += Time.deltaTime;
+            return false;
         }
 
     }
 
 
     private IEnumerator FadeIn() {
-        if (!isRunning) {
-            isRunning = true;
-            float alpha = 0f;
-            while (isRunning) {
 
-                if (alpha <= 1f) {
-                    warningPanel.alpha = alpha;
-                    alpha += Time.deltaTime;
-                } else {
-                    isRunning = false;
-                }
-                yield return null;
+        bool controller = true;
+
+        float alpha = 0f;
+        while (controller) {
+
+            if (alpha <= 1f) {
+                warningPanel.alpha = alpha;
+                alpha += Time.deltaTime;
+            } else {
+                controller = false;
             }
-            isRunning = false;
-
-            yield return new WaitForSeconds(timeDuringWarning);
-            StartCoroutine(FadeOut());
+            yield return null;
         }
+
+        yield return new WaitForSeconds(warningDuration);
+        StartCoroutine(FadeOut());
+
     }
 
     private IEnumerator FadeOut() {
-        if (!isRunning) {
-            isRunning = true;
-            float alpha = 1f;
-            while (isRunning) {
 
-                if (alpha >= 0f) {
-                    warningPanel.alpha = alpha;
-                    alpha -= Time.deltaTime;
-                } else {
-                    isRunning = false;
-                }
-                yield return null;
+        bool controller = true;
+        float alpha = 1f;
+        while (controller) {
+
+            if (alpha >= 0f) {
+                warningPanel.alpha = alpha;
+                alpha -= Time.deltaTime;
+            } else {
+                isShowingWarning = false;
             }
+            yield return null;
         }
+
+    }
+
+    public void NextDialog() {
+        dialogId++;
+        text.SetText(dialogs[dialogId]);
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.tag.Equals("Player")) {
-            hasPlayer = true;
-            elapsedTime = timePerWarning;
+        if (other.tag.Equals("Player")) {
+            hasPlayerEntered = true;
         }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        hasPlayer = false;
     }
 }
