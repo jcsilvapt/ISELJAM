@@ -72,6 +72,7 @@ public class c_CutSceneInteraction : MonoBehaviour, IInteractable {
         }
     }
 
+
     private IEnumerator Skip() {
         Debug.Log("Coroutine Started");
         yield return new WaitForSeconds(3f);

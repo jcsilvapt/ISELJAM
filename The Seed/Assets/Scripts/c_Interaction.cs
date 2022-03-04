@@ -13,6 +13,9 @@ public class c_Interaction : MonoBehaviour, IInteractable {
     }
 
     public void Interact() {
-        throw new System.NotImplementedException();
+        //
     }
+
+
+
 }

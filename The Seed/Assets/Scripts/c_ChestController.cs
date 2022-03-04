@@ -34,4 +34,5 @@ public class c_ChestController : MonoBehaviour, IInteractable {
             open = true;
         }
     }
+
 }

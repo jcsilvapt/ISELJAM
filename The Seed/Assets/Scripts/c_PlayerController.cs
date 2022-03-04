@@ -9,6 +9,7 @@ public class c_PlayerController : MonoBehaviour {
     [Header("References")]
     [SerializeField] Animator anim;
     [SerializeField] GameObject body;
+    [SerializeField] SceneController sc;
 
     [Header("Player Settings")]
     [SerializeField, Range(0.5f, 10.0f)] float walkingSpeed = 2.0f;
