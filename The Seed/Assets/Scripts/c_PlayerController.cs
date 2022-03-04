@@ -43,6 +43,7 @@ public class c_PlayerController : MonoBehaviour {
     private void Update() {
         if (interactable != null) {
             if (input.GetInteractionButton()) {
+                Debug.Log("Interacting");
                 interactable.Interact();
             }
         }

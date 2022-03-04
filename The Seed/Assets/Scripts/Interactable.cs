@@ -33,5 +33,6 @@ public enum CrystalType {
     Red,
     Blue,
     Green,
-    Yellow
+    Yellow,
+    Scroll
 }

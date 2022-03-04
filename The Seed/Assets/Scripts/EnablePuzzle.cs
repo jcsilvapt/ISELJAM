@@ -5,11 +5,10 @@ using UnityEngine;
 public class EnablePuzzle : MonoBehaviour {
 
     [SerializeField] GameObject puzzleUI;
-    [SerializeField] bool isCompleted;
 
     private void OnTriggerEnter(Collider other) {
-        if(other.CompareTag("Player")) {
+        /*if(other.CompareTag("Player") && !puzzleUI.GetComponent<PuzzleController>().GetIsCompleted()) {
             puzzleUI.SetActive(true);
-        }
+        }*/
     }
 }
