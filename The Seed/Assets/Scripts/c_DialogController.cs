@@ -8,6 +8,9 @@ public class c_DialogController : MonoBehaviour {
     [Header("References")]
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Animator anim;
+    [SerializeField] List<AudioClip> voiceLines;
+    [SerializeField] AudioSource aSource;
+    [SerializeField] GameObject redCrystal;
 
     [Header("Dialog Tree")]
     [TextArea(5,5)]
@@ -17,6 +20,10 @@ public class c_DialogController : MonoBehaviour {
 
     private void Start() {
         ChangeText();
+    }
+
+    private void OnEnable() {
+        dialogId = 0;
     }
 
     private void ChangeText() {
@@ -33,6 +40,18 @@ public class c_DialogController : MonoBehaviour {
 
     public void TalkAnimation() {
         anim.SetTrigger("talk");
+        PlaySounds();
+    }
+
+    private void PlaySounds() {
+        aSource.clip = voiceLines[Random.Range(0, voiceLines.Count - 1)];
+        aSource.Play();
+    }
+
+    public void TakeRedCrystal() {
+        Interactable crystal = redCrystal.GetComponent<Interactable>();
+        crystal.Interact();
+        redCrystal.SetActive(false);
     }
 
 }

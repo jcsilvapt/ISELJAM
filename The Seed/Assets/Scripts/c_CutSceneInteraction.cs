@@ -11,6 +11,8 @@ public class c_CutSceneInteraction : MonoBehaviour, IInteractable {
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Animator anim;
     [SerializeField] c_StoreWarning store;
+    [SerializeField] List<AudioClip> voiceLines;
+    [SerializeField] AudioSource aSource;
 
     [Header("Stages & Dialogs")]
     [SerializeField] List<CutScenePhase> stage; 
@@ -37,8 +39,11 @@ public class c_CutSceneInteraction : MonoBehaviour, IInteractable {
     }
 
     public void NextStageDialog() {
-        
-        if(stage[stageId].dialogId < stage[stageId].dialog.Count) {
+
+        anim.SetTrigger("isTalking");
+        PlaySounds();
+
+        if (stage[stageId].dialogId < stage[stageId].dialog.Count) {
             stage[stageId].dialogId++;
             currentText = stage[stageId].dialog[stage[stageId].dialogId];
             ChangeText();
@@ -46,7 +51,6 @@ public class c_CutSceneInteraction : MonoBehaviour, IInteractable {
         
         if (stage[stageId].dialogId == stage[stageId].dialog.Count - 1) {
             stage[stageId].hasBeenShown = true;
-            Debug.Log(stage[stageId].dialogId);
             if (stage[stageId].dialogId < 2)
                 StartCoroutine(Skip());
             if (!stage[stageId].isToRepeat) NextStage();
@@ -72,9 +76,12 @@ public class c_CutSceneInteraction : MonoBehaviour, IInteractable {
         }
     }
 
+    private void PlaySounds() {
+        aSource.clip = voiceLines[Random.Range(0, voiceLines.Count - 1)];
+        aSource.Play();
+    }
 
     private IEnumerator Skip() {
-        Debug.Log("Coroutine Started");
         yield return new WaitForSeconds(3f);
         SkipToEnd();
     }

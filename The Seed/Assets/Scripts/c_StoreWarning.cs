@@ -9,6 +9,7 @@ public class c_StoreWarning : MonoBehaviour {
     [SerializeField] CanvasGroup warningPanel;
     [SerializeField] Transform player;
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] Animator anim;
 
     [Header("Dialog")]
     [SerializeField] List<string> dialogs;
@@ -55,6 +56,7 @@ public class c_StoreWarning : MonoBehaviour {
             elapsedTimePerWarning = 0f;
             StartCoroutine(FadeIn());
             isShowingWarning = true;
+            anim.SetTrigger("isSayingHello");
         } else {
             elapsedTimePerWarning += Time.deltaTime;
         }
@@ -115,11 +117,13 @@ public class c_StoreWarning : MonoBehaviour {
     public void NextDialog() {
         dialogId++;
         text.SetText(dialogs[dialogId]);
+        anim.SetTrigger("isTalking");
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag.Equals("Player")) {
             hasPlayerEntered = true;
+            anim.SetTrigger("isSayingHello");
         }
     }
 }

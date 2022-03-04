@@ -55,4 +55,11 @@ public class SceneController : MonoBehaviour {
         }
         return null;
     }
+
+    public static bool HasFinalCrystal() {
+        if(ins != null) {
+            return ins.hasFinalCrystal;
+        }
+        return false;
+    }
 }

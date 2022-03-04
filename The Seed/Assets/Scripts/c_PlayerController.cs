@@ -9,7 +9,8 @@ public class c_PlayerController : MonoBehaviour {
     [Header("References")]
     [SerializeField] Animator anim;
     [SerializeField] GameObject body;
-    [SerializeField] SceneController sc;
+    [SerializeField] List<AudioClip> footStepsWalking;
+    [SerializeField] List<AudioClip> footStepsRunning;
 
     [Header("Player Settings")]
     [SerializeField, Range(0.5f, 10.0f)] float walkingSpeed = 2.0f;
@@ -23,11 +24,14 @@ public class c_PlayerController : MonoBehaviour {
     private float currentSpeed = 0f;
     private m_InputManager input;
     private Rigidbody rb;
+    private AudioSource footSource;
 
     private void Start() {
         input = m_InputManager.Instance;
         rb = GetComponent<Rigidbody>();
         currentSpeed = walkingSpeed;
+
+        footSource = GetComponent<AudioSource>();
 
         if (activeCamera == null) {
             activeCamera = transform.Find("MainCamera").GetComponent<CinemachineVirtualCamera>();
@@ -120,4 +124,15 @@ public class c_PlayerController : MonoBehaviour {
         }
         return false;
     }
+
+    public void PlayWalkFootStep() {
+        footSource.clip = footStepsWalking[Random.Range(0, footStepsWalking.Count - 1)];
+        footSource.Play();
+    }
+
+    public void PlayRunFootStep() {
+        footSource.clip = footStepsRunning[Random.Range(0, footStepsRunning.Count - 1)];
+        footSource.Play();
+    }
+
 }
