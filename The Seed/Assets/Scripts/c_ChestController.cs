@@ -8,13 +8,20 @@ public class c_ChestController : MonoBehaviour, IInteractable {
     [SerializeField] Vector3 openRotation;
     [SerializeField] float speed = 1f;
     [SerializeField] bool isOpen;
+    [SerializeField] GameObject crystalPrefab;
+
+    private Interactable crystal;
 
     public bool open;
+    public bool isFullyOpen = false;
 
     private void Start() {
         if(isOpen) {
             chestTop.localRotation = Quaternion.Euler(openRotation.x, openRotation.y, openRotation.z);
         }
+        crystal = crystalPrefab.GetComponent<Interactable>();
+        crystal.SetInteractable(false);
+
     }
 
     // Update is called once per frame
@@ -23,8 +30,12 @@ public class c_ChestController : MonoBehaviour, IInteractable {
             chestTop.localRotation = Quaternion.Lerp(chestTop.localRotation, Quaternion.Euler(openRotation.x, openRotation.y, openRotation.z), Time.deltaTime * speed);
             if(chestTop.localEulerAngles.x > 280f && chestTop.localEulerAngles.x < 280.5f) {
                 open = false;
+                isFullyOpen = true;
             }
-            Debug.Log(chestTop.localEulerAngles.x);
+        }
+        if(isFullyOpen) {
+            crystal.SetInteractable(true);
+            crystal.Interact();
         }
     }
 

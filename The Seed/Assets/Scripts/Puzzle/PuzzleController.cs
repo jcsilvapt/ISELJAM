@@ -13,6 +13,8 @@ public class PuzzleController : MonoBehaviour
 
     [SerializeField] private bool isCompleted;
 
+    private EnablePuzzle controller;
+
     public void SetSelectedPiece(PuzzleMoveablePieces pieceSelected)
     {
         if(pieceSelected == null)
@@ -56,6 +58,7 @@ public class PuzzleController : MonoBehaviour
 
         //Acabar jogo.
         isCompleted = true;
+        controller.OpenDoors();
         Debug.Log("O jogo acabou");
     }
 
@@ -68,4 +71,9 @@ public class PuzzleController : MonoBehaviour
     {
         slot.PlacePiece(pieceSelected);
     }
+
+    public void SetController(EnablePuzzle p) {
+        this.controller = p;
+    }
+
 }

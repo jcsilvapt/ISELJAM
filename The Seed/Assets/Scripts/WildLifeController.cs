@@ -89,8 +89,6 @@ public class WildLifeController : MonoBehaviour {
             objectToSpawn.transform.position = parent.position;
             objectToSpawn.transform.rotation = Quaternion.Euler(parent.localEulerAngles);
             objectToSpawn.transform.rotation = Quaternion.Euler(objectToSpawn.transform.rotation.x, objectToSpawn.transform.rotation.y + Random.Range(-25, 25), objectToSpawn.transform.rotation.z);
-            Debug.Log(parent.localEulerAngles);
-
             poolDictionary[tag].Enqueue(objectToSpawn);
         } else {
             Debug.LogWarning("Pool with tag: " + tag + " doesn't exsists.");

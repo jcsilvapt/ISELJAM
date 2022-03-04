@@ -2,13 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnablePuzzle : MonoBehaviour {
+public class EnablePuzzle : MonoBehaviour, IInteractable {
 
     [SerializeField] GameObject puzzleUI;
+    [SerializeField] PuzzleController currentPuzzle;
+    [SerializeField] Animator anim;
 
-    private void OnTriggerEnter(Collider other) {
-        /*if(other.CompareTag("Player") && !puzzleUI.GetComponent<PuzzleController>().GetIsCompleted()) {
-            puzzleUI.SetActive(true);
-        }*/
+    public void OpenDoors() {
+        anim.SetTrigger("openDoor");
+        puzzleUI.SetActive(false);
+    }
+
+    public void Interact() {
+        puzzleUI.SetActive(true);
+        if (currentPuzzle.GetIsCompleted()) {
+            puzzleUI.SetActive(false);
+        } else {
+            currentPuzzle.SetController(this);
+        }
     }
 }

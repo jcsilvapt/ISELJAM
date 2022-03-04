@@ -22,6 +22,15 @@ public class Interactable : MonoBehaviour, IInteractable {
     public CrystalType GetCrystalType() {
         return cType;
     }
+
+    public void SetInteractable(bool value) {
+        this.isInteractable = value;
+    }
+
+    public bool GetInteractable() {
+        return this.isInteractable;
+    }
+
 }
 public enum InteractionType {
     None,
