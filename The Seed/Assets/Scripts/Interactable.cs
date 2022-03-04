@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour, IInteractable {
     [SerializeField] InteractionType type;
     [SerializeField] CrystalType cType;
     [SerializeField] bool isInteractable;
+    [SerializeField, TextArea(5, 5)] string description;
 
     public void Interact() {
         if(isInteractable) {
@@ -43,5 +44,8 @@ public enum CrystalType {
     Blue,
     Green,
     Yellow,
-    Scroll
+    Scroll_1,
+    Scroll_2,
+    Scroll_3,
+    Scroll_4
 }
