@@ -11,8 +11,16 @@ public class PuzzleController : MonoBehaviour
 
     [SerializeField] private PuzzleCondition[] conditions;
 
+    [SerializeField] private bool isCompleted;
+
     public void SetSelectedPiece(PuzzleMoveablePieces pieceSelected)
     {
+        if(pieceSelected == null)
+        {
+            this.pieceSelected = null;
+            return;
+        }
+
         if(pieceSelected.GetIsSelected())
         {
             this.pieceSelected = pieceSelected;
@@ -47,6 +55,17 @@ public class PuzzleController : MonoBehaviour
         }
 
         //Acabar jogo.
+        isCompleted = true;
         Debug.Log("O jogo acabou");
+    }
+
+    public bool GetIsCompleted()
+    {
+        return isCompleted;
+    }
+
+    public void RemovingPiece(PuzzleGridSlot slot)
+    {
+        slot.PlacePiece(pieceSelected);
     }
 }

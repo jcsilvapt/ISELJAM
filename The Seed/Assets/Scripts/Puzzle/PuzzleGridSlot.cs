@@ -27,11 +27,6 @@ public class PuzzleGridSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         return posY;
     }
 
-    public void PlacePiece(PuzzleMoveablePieces piece)
-    {
-        placedPiece = piece;
-    }
-
     public void RemovePiece()
     {
         placedPiece = null;
@@ -70,14 +65,34 @@ public class PuzzleGridSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(isOccupied)
+        {
+            return;
+        }
+
         if(puzzleController.GetSelectedPiece() != null)
         {
             placedPiece = puzzleController.GetSelectedPiece();
             placedPiece.SetPlaced(true);
             placedPiece.SetPosition(transform.position);
             placedPiece.SetHighlight(false);
+            placedPiece.SetGridSlot(this);
 
+            puzzleController.SetSelectedPiece(null);
             puzzleController.PlayMade();
         }
+    }
+
+    public void PlacePiece(PuzzleMoveablePieces piece)
+    {
+        placedPiece = piece;
+
+        piece.SetPlaced(true);
+        piece.SetPosition(transform.position);
+        piece.SetHighlight(false);
+        piece.SetGridSlot(this);
+
+        puzzleController.SetSelectedPiece(null);
+        puzzleController.PlayMade();
     }
 }

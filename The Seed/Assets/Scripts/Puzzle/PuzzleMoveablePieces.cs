@@ -8,6 +8,7 @@ public class PuzzleMoveablePieces : PuzzleGenericPiece, IPointerEnterHandler, IP
 {
     [SerializeField] private PuzzleController puzzleController;
     [SerializeField] private Transform queueGridSlot;
+    [SerializeField] private PuzzleGridSlot gridSlot;
 
     [SerializeField] private Direction secondDirection;
 
@@ -45,6 +46,12 @@ public class PuzzleMoveablePieces : PuzzleGenericPiece, IPointerEnterHandler, IP
         }
         else
         {
+            if(puzzleController.GetSelectedPiece() != null)
+            {
+                puzzleController.RemovingPiece(gridSlot);
+            }
+
+            gridSlot = null;
             transform.position = queueGridSlot.position;
             isPlaced = false;
         }
@@ -91,5 +98,10 @@ public class PuzzleMoveablePieces : PuzzleGenericPiece, IPointerEnterHandler, IP
     public void SetPosition(Vector3 position)
     {
         transform.position = position;
+    }
+
+    public void SetGridSlot(PuzzleGridSlot slot)
+    {
+        this.gridSlot = slot;
     }
 }
